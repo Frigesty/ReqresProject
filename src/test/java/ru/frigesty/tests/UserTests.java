@@ -26,7 +26,7 @@ import static ru.frigesty.specs.ApiSpecs.*;
 @Tag("User")
 public class UserTests extends TestBase {
 
-    @DisplayName("Тест на проверка корректности данных пользователей на 2-й странице")
+    @DisplayName("Тест на проверку корректности данных пользователей на 2-й странице")
     @Severity(SeverityLevel.CRITICAL)
     @Owner("Frigesty")
     @Test
