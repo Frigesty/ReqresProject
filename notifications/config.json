@@ -1,0 +1,17 @@
+{
+  "base": {
+    "project": "some project",
+    "environment": "some env",
+    "comment": "some comment @przh17",
+    "reportLink": "https://jenkins.autotests.cloud/job/C27-przh17-WebTests_unit23/allure/",
+    "language": "en",
+    "messenger": "telegram",
+    "allureFolder": "/var/folders/1f/nrxlx35j04x3knjzv61bdg180000gp/T/3595074956138346362/allure-report",
+    "enableChart": true
+  },
+  "telegram": {
+    "token": "7488317301:AAH45niZOD_5rSrkwp61KbW0b_mRPqRkYMs",
+    "chat": "-1002179222823",
+    "replyTo": ""
+  }
+}

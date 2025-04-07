@@ -1,0 +1,16 @@
+HELP.md
+build/
+!**/src/test/**
+*.txt
+allure-results
+
+### IntelliJ IDEA ###
+.idea
+
+### Gradle ###
+.gradle
+gradle
+gradlew
+gradlew.bat
+settings.gradle
+README.md
