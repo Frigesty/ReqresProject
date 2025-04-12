@@ -10,9 +10,9 @@ import ru.frigesty.models.LoginResponseModel;
 
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.frigesty.specs.ApiSpecs.*;
 
 @Tag("Login")
@@ -47,7 +47,9 @@ public class LoginTests extends TestBase {
         );
 
         step("Проверяем, что получен ожидаемый токен", () -> {
-            assertEquals(expectedToken, response.getToken(), "Токен не совпадает с ожидаемым значением");
+            assertThat(response.getToken())
+                    .as("Токен не совпадает с ожидаемым значением")
+                    .isEqualTo(expectedToken);
         });
     }
 
@@ -73,8 +75,9 @@ public class LoginTests extends TestBase {
         );
 
         step("Проверяем, что ошибка в ответе соответствует ожидаемой", () -> {
-            assertEquals("Missing password", response.getError(),
-                    "Ошибка в сообщении не совпадает с ожидаемой");
+            assertThat(response.getError())
+                    .as("Ошибка в сообщении не совпадает с ожидаемым значением")
+                    .isEqualTo("Missing password");
         });
     }
 }

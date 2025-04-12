@@ -12,7 +12,7 @@ import java.util.List;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static ru.frigesty.specs.ApiSpecs.*;
 
 @Tag("Resource")
@@ -55,14 +55,20 @@ public class ResourceTests extends TestBase {
         List<ListResourceModel.ColorData> colorsFromResponse = response.getData();
 
         step("Проверяем все цвета в массиве data", () -> {
-            assertEquals(expectedColors.size(), colorsFromResponse.size(),
-                    "Некорректное количество элементов в data");
+            assertThat(colorsFromResponse.size())
+                    .as("Некорректное количество элементов в data")
+                    .isEqualTo(expectedColors.size());
+
+
             for (int i = 0; i < expectedColors.size(); i++) {
-                assertEquals(expectedColors.get(i).getId(), colorsFromResponse.get(i).getId());
-                assertEquals(expectedColors.get(i).getYear(), colorsFromResponse.get(i).getYear());
-                assertEquals(expectedColors.get(i).getName(), colorsFromResponse.get(i).getName());
-                assertEquals(expectedColors.get(i).getColor(), colorsFromResponse.get(i).getColor());
-                assertEquals(expectedColors.get(i).getPantoneValue(), colorsFromResponse.get(i).getPantoneValue());
+                ListResourceModel.ColorData expectedColor = expectedColors.get(i);
+                ListResourceModel.ColorData actualColor = colorsFromResponse.get(i);
+
+                assertThat(actualColor.getId()).isEqualTo(expectedColor.getId());
+                assertThat(actualColor.getYear()).isEqualTo(expectedColor.getYear());
+                assertThat(actualColor.getName()).isEqualTo(expectedColor.getName());
+                assertThat(actualColor.getColor()).isEqualTo(expectedColor.getColor());
+                assertThat(actualColor.getPantoneValue()).isEqualTo(expectedColor.getPantoneValue());
             }
         });
     }
@@ -83,11 +89,11 @@ public class ResourceTests extends TestBase {
                         .extract().as(SingleResourceModel.class));
 
         step("Проверяем данные ресурса", () -> {
-            assertEquals(2, response.getData().getId());
-            assertEquals("fuchsia rose", response.getData().getName());
-            assertEquals(2001, response.getData().getYear());
-            assertEquals("#C74375", response.getData().getColor());
-            assertEquals("17-2031", response.getData().getPantoneValue());
+            assertThat(response.getData().getId()).isEqualTo(2);
+            assertThat(response.getData().getName()).isEqualTo("fuchsia rose");
+            assertThat(response.getData().getYear()).isEqualTo(2001);
+            assertThat(response.getData().getColor()).isEqualTo("#C74375");
+            assertThat(response.getData().getPantoneValue()).isEqualTo("17-2031");
         });
     }
 

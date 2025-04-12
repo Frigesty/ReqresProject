@@ -14,9 +14,9 @@ import java.util.List;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.frigesty.specs.ApiSpecs.*;
 
 @Epic("Взаимодействие с пользователем")
@@ -60,15 +60,21 @@ public class UserTests extends TestBase {
         List<ListUsersModel.UserData> usersFromResponse = response.getData();
 
         step("Проверяем, что данные пользователей соответствуют ожидаемым", () -> {
-            assertEquals(expectedUsers.size(), usersFromResponse.size(),
-                    "Некорректное количество пользователей");
+            // Проверяем размер списка
+            assertThat(usersFromResponse.size())
+                    .as("Некорректное количество пользователей")
+                    .isEqualTo(expectedUsers.size());
 
+            // Проверяем данные пользователей
             for (int i = 0; i < expectedUsers.size(); i++) {
-                assertEquals(expectedUsers.get(i).getId(), usersFromResponse.get(i).getId());
-                assertEquals(expectedUsers.get(i).getEmail(), usersFromResponse.get(i).getEmail());
-                assertEquals(expectedUsers.get(i).getFirstName(), usersFromResponse.get(i).getFirstName());
-                assertEquals(expectedUsers.get(i).getLastName(), usersFromResponse.get(i).getLastName());
-                assertEquals(expectedUsers.get(i).getAvatar(), usersFromResponse.get(i).getAvatar());
+                ListUsersModel.UserData expectedUser = expectedUsers.get(i);
+                ListUsersModel.UserData actualUser = usersFromResponse.get(i);
+
+                assertThat(actualUser.getId()).isEqualTo(expectedUser.getId());
+                assertThat(actualUser.getEmail()).isEqualTo(expectedUser.getEmail());
+                assertThat(actualUser.getFirstName()).isEqualTo(expectedUser.getFirstName());
+                assertThat(actualUser.getLastName()).isEqualTo(expectedUser.getLastName());
+                assertThat(actualUser.getAvatar()).isEqualTo(expectedUser.getAvatar());
             }
         });
     }
@@ -89,11 +95,11 @@ public class UserTests extends TestBase {
                         .extract().as(SingleUserModel.class));
 
         step("Проверяем данные пользователя", () -> {
-            assertEquals(2, response.getData().getId());
-            assertEquals("janet.weaver@reqres.in", response.getData().getEmail());
-            assertEquals("https://reqres.in/img/faces/2-image.jpg", response.getData().getAvatar());
-            assertEquals("Janet", response.getData().getFirstName());
-            assertEquals("Weaver", response.getData().getLastName());
+            assertThat(response.getData().getId()).isEqualTo(2);
+            assertThat(response.getData().getEmail()).isEqualTo("janet.weaver@reqres.in");
+            assertThat(response.getData().getAvatar()).isEqualTo("https://reqres.in/img/faces/2-image.jpg");
+            assertThat(response.getData().getFirstName()).isEqualTo("Janet");
+            assertThat(response.getData().getLastName()).isEqualTo("Weaver");
         });
     }
 
@@ -208,15 +214,19 @@ public class UserTests extends TestBase {
         List<ListUsersModel.UserData> usersFromResponse = response.getData();
 
         step("Проверяем, что данные пользователей на 1-й странице соответствуют ожидаемым", () -> {
-            assertEquals(expectedUsers.size(), usersFromResponse.size(),
-                    "Некорректное количество пользователей на первой странице");
+            assertThat(usersFromResponse.size())
+                    .as("Некорректное количество пользователей на первой странице")
+                    .isEqualTo(expectedUsers.size());
 
             for (int i = 0; i < expectedUsers.size(); i++) {
-                assertEquals(expectedUsers.get(i).getId(), usersFromResponse.get(i).getId());
-                assertEquals(expectedUsers.get(i).getEmail(), usersFromResponse.get(i).getEmail());
-                assertEquals(expectedUsers.get(i).getFirstName(), usersFromResponse.get(i).getFirstName());
-                assertEquals(expectedUsers.get(i).getLastName(), usersFromResponse.get(i).getLastName());
-                assertEquals(expectedUsers.get(i).getAvatar(), usersFromResponse.get(i).getAvatar());
+                ListUsersModel.UserData expectedUser = expectedUsers.get(i);
+                ListUsersModel.UserData actualUser = usersFromResponse.get(i);
+
+                assertThat(actualUser.getId()).isEqualTo(expectedUser.getId());
+                assertThat(actualUser.getEmail()).isEqualTo(expectedUser.getEmail());
+                assertThat(actualUser.getFirstName()).isEqualTo(expectedUser.getFirstName());
+                assertThat(actualUser.getLastName()).isEqualTo(expectedUser.getLastName());
+                assertThat(actualUser.getAvatar()).isEqualTo(expectedUser.getAvatar());
             }
         });
     }
